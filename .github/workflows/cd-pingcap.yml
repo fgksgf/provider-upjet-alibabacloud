@@ -1,0 +1,129 @@
+name: CD for pingcap branch
+
+on:
+  push:
+    branches:
+      - pingcap
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  # Docker Buildx version must match the one used in main CI
+  DOCKER_BUILDX_VERSION: 'v0.8.2'
+  # Only build for linux/amd64 architecture
+  PLATFORMS: 'linux_amd64'
+  # Upbound CLI version (must match the one in build/makelib/k8s_tools.mk)
+  UP_VERSION: 'v0.38.0'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Find the Go Build Cache
+        id: go
+        run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
+
+      - name: Cache the Go Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.go.outputs.cache }}
+          key: ${{ runner.os }}-build-cd-pingcap-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-build-cd-pingcap-
+
+      - name: Cache Go Dependencies
+        uses: actions/cache@v4
+        with:
+          path: .work/pkg
+          key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-pkg-
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: ${{ env.DOCKER_BUILDX_VERSION }}
+          install: true
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Version Tag
+        id: version
+        run: |
+          VERSION=$(date +%Y%m%d)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "📅 Version: ${VERSION}"
+
+      - name: Vendor Dependencies
+        run: make vendor vendor.check
+
+      - name: Build Artifacts
+        run: |
+          make -j2 build.all \
+            PLATFORMS="${{ env.PLATFORMS }}" \
+            VERSION="${{ steps.version.outputs.version }}"
+        env:
+          # Load images to local Docker daemon so up xpkg push can access them
+          BUILD_ARGS: "--load"
+
+      - name: Install Upbound CLI
+        run: |
+          mkdir -p .work/tools
+          curl -fsSLo .work/tools/up --create-dirs \
+            "https://cli.upbound.io/stable/${{ env.UP_VERSION }}/bin/linux_amd64/up?source=build"
+          chmod +x .work/tools/up
+          echo "✅ Installed up CLI ${{ env.UP_VERSION }}"
+          .work/tools/up --version
+
+      - name: Push XPKG Package (with Controller Image)
+        run: |
+          echo "📦 Pushing XPKG package to ghcr.io/tennix/provider-upjet-alibabacloud:${{ steps.version.outputs.version }}"
+          echo "ℹ️  up xpkg push will automatically:"
+          echo "   1. Push Controller image from local Docker to ghcr.io/tennix"
+          echo "   2. Update image reference in XPKG package"
+          echo "   3. Push updated XPKG package"
+
+          .work/tools/up xpkg push \
+            --package _output/xpkg/linux_amd64/provider-upjet-alibabacloud-${{ steps.version.outputs.version }}.xpkg \
+            ghcr.io/tennix/provider-upjet-alibabacloud:${{ steps.version.outputs.version }}
+
+          echo "✅ Successfully pushed XPKG package"
+          echo "📍 Package: ghcr.io/tennix/provider-upjet-alibabacloud:${{ steps.version.outputs.version }}"
+
+      - name: Summary
+        run: |
+          echo "## 🎉 Build and Push Completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifacts Published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **XPKG Package**: \`ghcr.io/tennix/provider-upjet-alibabacloud:${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Controller Image**: \`ghcr.io/tennix/provider-upjet-alibabacloud-amd64:${{ steps.version.outputs.version }}\` (auto-pushed)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Architecture**: linux/amd64" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version Tag**: ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Installation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "kubectl crossplane install provider ghcr.io/tennix/provider-upjet-alibabacloud:${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### View Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Visit: https://github.com/tennix?tab=packages" >> $GITHUB_STEP_SUMMARY
