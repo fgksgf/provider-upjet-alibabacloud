@@ -9,10 +9,10 @@ ENV USER_ID=65532
 # Setup Terraform environment
 ARG TERRAFORM_VERSION=1.5.7
 ARG TERRAFORM_PROVIDER_SOURCE=aliyun/alicloud
-ARG TERRAFORM_PROVIDER_VERSION=1.247.0
+ARG TERRAFORM_PROVIDER_VERSION=1.261.0
 ARG TERRAFORM_PROVIDER_DOWNLOAD_NAME=terraform-provider-alicloud
-ARG TERRAFORM_NATIVE_PROVIDER_BINARY=terraform-provider-alicloud_v1.247.0
-ARG TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX=https://releases.hashicorp.com/terraform-provider-alicloud/1.247.0
+ARG TERRAFORM_NATIVE_PROVIDER_BINARY=terraform-provider-alicloud_v1.261.0
+ARG TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX=https://releases.hashicorp.com/terraform-provider-alicloud/1.261.0
 
 ENV PLUGIN_DIR=/terraform/provider-mirror/registry.terraform.io/${TERRAFORM_PROVIDER_SOURCE}/${TERRAFORM_PROVIDER_VERSION}/${TARGETOS}_${TARGETARCH}
 ENV TF_CLI_CONFIG_FILE=/terraform/.terraformrc

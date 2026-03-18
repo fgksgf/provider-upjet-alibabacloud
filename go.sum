@@ -32,8 +32,6 @@ github.com/crossplane/crossplane-runtime v1.20.0-rc.0.0.20250509113121-26da25aff
 github.com/crossplane/crossplane-runtime v1.20.0-rc.0.0.20250509113121-26da25aff65f/go.mod h1:FV2OSyPkmGJgRPUPAWkaAmJaG/Si8oOKHzLwl/ozIF0=
 github.com/crossplane/crossplane-tools v0.0.0-20240522174801-1ad3d4c87f21 h1:8wb7/zCbVPkeX68WbVESWJmSWQE5SZKzz0g9X4FlXRw=
 github.com/crossplane/crossplane-tools v0.0.0-20240522174801-1ad3d4c87f21/go.mod h1:cN0Y7PFGQMM8mcagXVCbeQoKtipmFWQTPZYyziCPBUI=
-github.com/crossplane/upjet v1.9.0 h1:ocPUc7sEV289sESe68KGev/1f6H6uQZ/0ND1W79rsyA=
-github.com/crossplane/upjet v1.9.0/go.mod h1:VhqkQRrvGuHOCacpcIWjZ+t0jUOpt5NL6RtbY0TSURo=
 github.com/dave/jennifer v1.7.0 h1:uRbSBH9UTS64yXbh4FrMHfgfY762RD+C7bUPKODpSJE=
 github.com/dave/jennifer v1.7.0/go.mod h1:nXbxhEmQfOZhWml3D1cDK5M1FLnMSozpbFN/m3RmGZc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -51,6 +49,8 @@ github.com/fatih/camelcase v1.0.0/go.mod h1:yN2Sb0lFhZJUdVvtELVWefmrXpuZESvPmqwo
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
 github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
+github.com/fgksgf/upjet v1.9.0-netrpc.1 h1:j2kQeRhmKZJK6Nci8RI6dlLUy4tMIGluYX9RADoAzik=
+github.com/fgksgf/upjet v1.9.0-netrpc.1/go.mod h1:VhqkQRrvGuHOCacpcIWjZ+t0jUOpt5NL6RtbY0TSURo=
 github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nosvA=
 github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/fxamacker/cbor/v2 v2.7.0 h1:iM5WgngdRBanHcxugY4JySA0nk1wZorNOpTgCMedv5E=
