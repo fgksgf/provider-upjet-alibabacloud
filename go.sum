@@ -49,8 +49,8 @@ github.com/fatih/camelcase v1.0.0/go.mod h1:yN2Sb0lFhZJUdVvtELVWefmrXpuZESvPmqwo
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
 github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
-github.com/fgksgf/upjet v1.9.0-netrpc.1 h1:j2kQeRhmKZJK6Nci8RI6dlLUy4tMIGluYX9RADoAzik=
-github.com/fgksgf/upjet v1.9.0-netrpc.1/go.mod h1:VhqkQRrvGuHOCacpcIWjZ+t0jUOpt5NL6RtbY0TSURo=
+github.com/fgksgf/upjet v1.9.0-netrpc.2 h1:DVIEsHHCOwbO1064tieDOqwHweoMvpw7I0jd+iboEIs=
+github.com/fgksgf/upjet v1.9.0-netrpc.2/go.mod h1:VhqkQRrvGuHOCacpcIWjZ+t0jUOpt5NL6RtbY0TSURo=
 github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nosvA=
 github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/fxamacker/cbor/v2 v2.7.0 h1:iM5WgngdRBanHcxugY4JySA0nk1wZorNOpTgCMedv5E=

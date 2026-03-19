@@ -131,4 +131,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace github.com/crossplane/upjet => github.com/fgksgf/upjet v1.9.0-netrpc.1
+replace github.com/crossplane/upjet => github.com/fgksgf/upjet v1.9.0-netrpc.2
