@@ -1,0 +1,16 @@
+{
+  "name": "Crossplane Provider E2E",
+  "image": "mcr.microsoft.com/devcontainers/go:1.24",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "minikube": "none"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 16,
+    "memory": "32gb",
+    "storage": "128gb"
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
+}
