@@ -12,13 +12,13 @@
 | Crossplane | v1.15+ 已安装 |
 | 阿里云凭证 | access_key + secret_key，有 VPC、OSS、RAM 权限 |
 | 工具 | `kubectl`, `helm`, `docker`, `jq`, `bc` |
-| **推荐环境** | **GitHub Codespaces 16-core / 32GB RAM / 128GB disk**（详见下方搭建指南） |
+| **推荐环境** | **GitHub Codespaces 4-core / 16GB RAM / 32GB disk**（详见下方搭建指南） |
 
 ## 测试架构
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│              GitHub Codespace (16c/32GB)             │
+│              GitHub Codespace (4c/16GB)               │
 │                                                     │
 │  ┌───────────┐    ┌───────────────────────────────┐ │
 │  │ Test      │    │     kind Cluster (v1.28+)     │ │
@@ -45,12 +45,12 @@
 
 | 维度 | 结论 | 说明 |
 |------|:----:|------|
-| 机型 | ✅ | 16-core / 32GB RAM / 128GB disk 满足编译和集群需求 |
+| 机型 | ✅ | 4-core / 16GB RAM / 32GB disk 满足基本编译和集群需求 |
 | Docker | ✅ | devcontainer 内置 Docker-in-Docker feature |
 | kind | ⚠️ | 已知 DinD 兼容问题（[kind#3748](https://github.com/kubernetes-sigs/kind/issues/3748), [kind#2412](https://github.com/kubernetes-sigs/kind/issues/2412)），但实测大多数场景可用。如遇启动失败可尝试重建 Codespace |
-| 磁盘 | ✅ | 128GB 足以容纳 Go module cache、Docker 镜像和 kind node image |
+| 磁盘 | ⚠️ | 32GB 较紧张，需及时清理无用 Docker 镜像 |
 | 网络 | ✅ | Codespaces 允许出站到阿里云 API，无白名单限制 |
-| 成本 | ✅ | GitHub 免费额度 120 core-hours/月，16-core 可用约 7.5 小时；付费帐号无限制 |
+| 成本 | ✅ | GitHub 免费额度 120 core-hours/月，4-core 可用约 30 小时；付费帐号无限制 |
 
 ### 创建 Codespace
 
@@ -59,7 +59,7 @@
 1. 打开 `https://github.com/fgksgf/provider-upjet-alibabacloud`
 2. 切换到 `feat/shared-provider` 分支
 3. 点击 **Code → Codespaces → New with options**
-4. 机型选择 **16-core / 32GB RAM / 128GB disk**
+4. 机型选择 **4-core / 16GB RAM / 32GB disk**（或可用的最大机型）
 5. 等待创建完成（首次约 5-8 分钟）
 
 **方式二：CLI**
@@ -68,7 +68,7 @@
 gh codespace create \
   --repo fgksgf/provider-upjet-alibabacloud \
   --branch feat/shared-provider \
-  --machine largePremiumLinux \
+  --machine standardLinux32gb \
   --display-name "e2e-shared-provider"
 ```
 
