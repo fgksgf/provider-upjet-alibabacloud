@@ -78,7 +78,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,branch=pingcap
+            type=ref,event=branch
             type=sha,prefix=pingcap-
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
